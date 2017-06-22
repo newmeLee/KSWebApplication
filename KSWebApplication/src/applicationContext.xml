@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.0.xsd 
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+
+	<!--####1. 数据路连接实例的配置-->
+	<!--########1.1 business层连接池的配置 -->
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="net.sourceforge.jtds.jdbc.Driver"></property>
+		<property name="jdbcUrl"
+		value="jdbc:jtds:sqlserver://122.225.80.130:2633;databaseName=physical50"></property>
+			<!-- value="jdbc:jtds:sqlserver://122.225.80.130:4489;databaseName=physical50"></property> -->
+			
+		<property name="user" value="sa"></property>
+		<property name="password" value="KSadmin88"></property>
+		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+ 		<property name="initialPoolSize" value="5"></property>
+		<!-- 连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize" value="100"></property>
+		<!-- 连接池中保留的最小连接数。 -->
+		<property name="minPoolSize" value="1"></property>
+		<!-- 最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="60" />
+		<property name="maxStatements" value="6000"></property>
+		<!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="3"></property>
+		<!-- 每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
+	</bean>
+	<bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	<!--########1.2 system层连接池的配置 -->
+	<bean id="dataSourceSystem" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="driverClass" value="net.sourceforge.jtds.jdbc.Driver"></property>
+		<property name="jdbcUrl"
+			value="jdbc:jtds:sqlserver://localhost:1433;databaseName=KSWebApplication"></property>
+		<property name="user" value="sa"></property>
+		<property name="password" value="123456"></property>
+		<property name="initialPoolSize" value="3"></property>
+		<property name="maxPoolSize" value="6"></property>
+		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+ 		<!-- <property name="initialPoolSize" value="5"></property> -->
+		<!-- 连接池中保留的最大连接数。Default: 15 -->
+		<!-- <property name="maxPoolSize" value="100"></property> -->
+		<!-- 连接池中保留的最小连接数。 -->
+		<!-- <property name="minPoolSize" value="1"></property> -->
+		<!-- 最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<!-- <property name="maxIdleTime" value="60" /> -->
+		<!-- <property name="maxStatements" value="6000"></property> -->
+		<!-- 当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<!-- <property name="acquireIncrement" value="3"></property> -->
+		<!-- 每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<!-- <property name="idleConnectionTestPeriod" value="60" /> -->
+	</bean>
+	<bean id="jdbcTemplateSystem" class="org.springframework.jdbc.core.JdbcTemplate">
+		<property name="dataSource" ref="dataSourceSystem"></property>
+	</bean>
+	
+	<!--####2. entity数据库实例-->
+	<!--########2.1 business层 entity数据库实例-->
+	<bean id="patient" class="cn.zjzt.entity.Patient"/>
+	<bean id="validateInfo" class="cn.zjzt.entity.ValidateInfo"/>
+	<bean id="phyCheckUpMaster" class="cn.zjzt.entity.PhyCheckUpMaster"/>
+	<bean id="phyCheckUpList" class="cn.zjzt.entity.PhyCheckUpList" />
+	<bean id="viewCheckList" class="cn.zjzt.entity.ViewPhyCheckResult"/>
+	<bean id="viewCheckUpMaster" class="cn.zjzt.entity.ViewPhyCheckMaster"/>
+	<bean id="phyAcceptUnit" class="cn.zjzt.entity.PhyAcceptUnit"/>
+	<!--########2.2 system层entity模型类配置 -->
+	<bean id="webNews" class="cn.zjzt.entity.system.WebNews"></bean>
+	<bean id="groupMaster" class="cn.zjzt.entity.system.GroupMaster"> </bean>
+	<bean id="userPassword" class="cn.zjzt.entity.system.UserPassword"> </bean>
+	<bean id="userFeedBack" class="cn.zjzt.entity.system.UserFeedback"> </bean>
+	<bean id="template" class="cn.zjzt.entity.system.Template"></bean>
+	<bean id="expert" class="cn.zjzt.entity.system.Expert"></bean>
+	<bean id="depart" class="cn.zjzt.entity.system.Depart"></bean>
+	<bean id="equipment" class="cn.zjzt.entity.system.Equipment"></bean>
+	<!-- ####3 Dao数据库连接  -->
+	<!-- ########3.1 business层Dao数据库应用实例 -->
+	<bean id="patientDao" class="cn.zjzt.dao.PatientDao">
+		<property name="patient" ref="patient"></property>
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="phyCheckDao" class="cn.zjzt.dao.PhyCheckDao">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+		<property name="checkUpList" ref="phyCheckUpList"></property>
+	</bean>
+	<bean id="phyUnitCheckDao" class="cn.zjzt.dao.PhyUnitCheckDao"> 
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<!-- ########3.2 system层Dao数据库应用实例类配置 -->
+	<bean id="webNewsDao" class="cn.zjzt.dao.system.WebNewsDao">
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<bean id="templateDao" class="cn.zjzt.dao.system.TemplateDao">
+		<!-- 此处的Jdbc是连接的体检数据库的套餐 -->
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<bean id="userPasswordDao" class="cn.zjzt.dao.UserPasswordDao">
+		<property name="jdbcTemplate" ref="jdbcTemplate"></property>
+	</bean>
+	<bean id="expertDao" class="cn.zjzt.dao.system.ExpertDao">
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<bean id="departDao" class="cn.zjzt.dao.system.DepartDao">
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<bean id="userFeedbackDao" class="cn.zjzt.dao.system.UserFeedBackDao">
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<bean id="equipmentDao" class="cn.zjzt.dao.system.EquipmentDao">
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<bean id="loginDao" class="cn.zjzt.dao.system.LoginDao">
+		<property name="jdbcTemplate" ref="jdbcTemplateSystem"></property>
+	</bean>
+	<!--####4 Service类配置  -->
+	<!--########4.1 business层Service类配置  -->
+	<bean id="patientService" class="cn.zjzt.service.PatientService">
+		<property name="patientDao" ref="patientDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+		<property name="userPasswordDao" ref="userPasswordDao"></property>
+		<property name="unitCheckDao" ref="phyUnitCheckDao"></property>
+	</bean>
+	<bean id="phyCheckService" class="cn.zjzt.service.PhyCheckService">
+		<property name="phyCheckDao" ref="phyCheckDao"></property>
+	</bean>
+	<bean id="phyUnitCheckService" class="cn.zjzt.service.PhyUnitCheckService">
+		<property name="unitCheckDao" ref="phyUnitCheckDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+	</bean>
+	<!--########4.2 system层Service类配置  -->
+	<bean id="webNewsService" class="cn.zjzt.service.system.WebNewsService">
+		<property name="webNewsDao" ref="webNewsDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+	</bean>
+	<bean id="templateService" class="cn.zjzt.service.system.TemplateService">
+		<property name="templateDao" ref="templateDao"></property>
+	</bean>
+	<bean id="expertService" class="cn.zjzt.service.system.ExpertService">
+		<property name="expertDao" ref="expertDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+	</bean>
+	<bean id="departService" class="cn.zjzt.service.system.DepartService">
+		<property name="departDao" ref="departDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+	</bean>
+	<bean id="userFeedbackService" class="cn.zjzt.service.system.UserFeedbackService">
+		<property name="feedBackDao" ref="userFeedbackDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+	</bean>
+	<bean id="equipmentService" class="cn.zjzt.service.system.EquipmentService">
+		<property name="equipmentDao" ref="equipmentDao"></property>
+		<property name="validateInfo" ref="validateInfo"></property>
+	</bean>
+	<bean id="loginService" class="cn.zjzt.service.system.LoginService">
+		<property name="loginDao" ref="loginDao"></property>
+	</bean>
+</beans>

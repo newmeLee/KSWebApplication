@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+          "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="jsonStruts" extends="json-default">
+		<!-- 个人信息完整性验证 -->
+		<action name="validateInfo" class="cn.zjzt.action.PatientAction"
+			method="validateInfo">
+			<result type="json"></result>
+			<param name="root">result</param>
+		</action>
+		<!-- 单位信息完整性验证 -->
+		<action name="validateUnitInfo" class="cn.zjzt.action.UnitValidateAction"
+			method="validateUnitInfo">
+			<result  type="json"></result>
+			<param name="root">result</param>
+		</action>
+		
+		<action name="updatePassword" class="cn.zjzt.action.PatientAction"
+			method="updatePassword">
+			<result  type="json"></result>
+			<param name="root">result</param>	
+		</action>
+		<action name="updateUnitPassword" class="cn.zjzt.action.PatientAction"
+			method="updateUnitPassword">
+			<result  type="json"></result>
+			<param name="root">result</param>	
+		</action>
+		
+		<action name="getPassword" class="cn.zjzt.action.PatientAction"
+			method="getPassword">
+			<result type="json"></result>
+			<param name="root">userPassword</param>	
+		</action>
+		<action name="validateRegID" class="cn.zjzt.action.PatientAction"
+			method="validateRegID">
+			<result type="json"></result>
+			<param name="root">result</param>	
+		</action>
+		
+		<action name="validateIDCard" class="cn.zjzt.action.PatientAction"
+			method="validateIDCard">
+			<result type="json"></result>
+			<param name="root">result</param>	
+		</action>
+		
+		<action name="validateRegIDAndPsd" class="cn.zjzt.action.PatientAction"
+			method="validateRegIDAndPsd">
+			<result  type="json"></result>
+			<param name="root">result</param>
+		</action>
+		<action name="validateProperty" class="cn.zjzt.action.PatientAction"
+			method="validateProperty">
+			<result  type="json"></result>
+			<param name="root">result</param>	
+		</action>
+	</package>
+</struts>

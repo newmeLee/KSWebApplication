@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+          "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="systemActionStruts.xml" extends="struts-default">
+		<action name="index" class="cn.zjzt.action.system.IndexAction"
+			method="index">
+			<result name="success">/index.jsp</result>
+		</action>
+		<action name="template" class="cn.zjzt.action.system.TemplateAction"
+			method="template">
+			<result name="success">/phy_packages.jsp</result>
+		</action>
+		<action name="getAllTemplate" class="cn.zjzt.action.system.TemplateAction"
+			method="getAllTemplate">
+			<result name="success">/backStage/template.jsp</result>
+		</action>
+		<action name="template_detail" class="cn.zjzt.action.system.TemplateAction"
+			method="templateDetail">
+			<result name="success">/package_detail.jsp</result>	
+		</action>
+		<action name="getAllNews" class="cn.zjzt.action.system.WebNewsAction"
+			method="getAllNews">
+			<result name="success">/backStage/news.jsp</result>
+		</action>
+		<action name="getAllSocialNews" class="cn.zjzt.action.system.WebNewsAction"
+			method="getAllSocialNews">
+			<result name="success">/backStage/news.jsp</result>
+		</action>
+		<action name="newsList" class="cn.zjzt.action.system.WebNewsAction"
+			method="getAllNews">
+			<result name="success">/news_list.jsp</result>
+		</action>
+		<action name="getNewsByID" class="cn.zjzt.action.system.WebNewsAction"
+			method="getNewsByID">
+			<result name="success">/news_detail.jsp</result>
+		</action>
+		<action name="deleteNewsByID" class="cn.zjzt.action.system.WebNewsAction"
+			method="deleteNewsByID">
+			<result name="success" type="chain">getAllNews</result>
+		</action>
+		<action name="addOrUpdateTemplate" class="cn.zjzt.action.system.TemplateAction"
+			method="addOrUpdateTemplate">
+			<result name="success" type="chain">getAllTemplate</result>
+		</action>
+		<action name="deleteTemplate" class="cn.zjzt.action.system.TemplateAction"
+			method="deleteTemplate">
+			<result name="success" type="chain">getAllTemplate</result>
+		</action>
+		<action name="getAllExpert" class="cn.zjzt.action.system.ExpertAction"
+			method="getAllExpert">
+			<result name="success">/backStage/expert.jsp</result>
+		</action>
+		<action name="addOrUpdateExpert" class="cn.zjzt.action.system.ExpertAction"
+			method="addOrUpdateExpert">
+			<result name="success" type="chain">getAllExpert</result>
+		</action>
+		<action name="expertDetail" class="cn.zjzt.action.system.ExpertAction"
+			method="expertDetail">
+			<result name="success">/expert_detail.jsp</result>
+		</action>
+		<action name="deleteExpert" class="cn.zjzt.action.system.ExpertAction"
+			method="deleteExpert">
+			<result name="success" type="chain">getAllExpert</result>
+		</action>
+		<action name="getAllDepart" class="cn.zjzt.action.system.DepartAction"
+			method="getAllDepart">
+			<result name="success">/backStage/depart.jsp</result>
+		</action>
+		<action name="deleteDepart" class="cn.zjzt.action.system.DepartAction"
+			method="deleteDepart">
+			<result name="success" type="chain">getAllDepart</result>
+		</action>
+		<action name="getDepartInfo" class="cn.zjzt.action.system.DepartAction"
+			method="getDepartInfo">
+			<result name="success">/depart_detail.jsp</result>
+		</action>
+		<action name="contact_us" class="cn.zjzt.action.system.UserFeedbackAction"
+			method="contact_us">
+			<result name="success">/contact_us.jsp</result>
+		</action>
+		<action name="feedback" class="cn.zjzt.action.system.UserFeedbackAction"
+			method="feedback">
+			<result name="success">/backStage/feedback.jsp</result>
+		</action>
+		<action name="deleteFeedback" class="cn.zjzt.action.system.UserFeedbackAction"
+			method="deleteFeedback">
+			<result name="success" type="chain">feedback</result>
+			<result name="error" type="chain">feedback</result>
+		</action>
+		
+		<action name="getAllPhyicalNews" class="cn.zjzt.action.system.GuideAction"
+			method="getAllPhyicalNews">
+			<result name="success">/guide.jsp</result>
+		</action>
+		
+		<!-- 设备有关的action -->
+		<action name="equipment" class="cn.zjzt.action.system.EquipmentAction"
+			method="equipment">
+			<result name="success">/equipment.jsp</result>
+		</action>
+		<action name="getAllEquipment" class="cn.zjzt.action.system.EquipmentAction"
+			method="equipment">
+			<result name="success">/backStage/equipment.jsp</result>
+		</action>
+		<action name="getEquipInfo" class="cn.zjzt.action.system.EquipmentAction"
+			method="getEquipInfo">
+			<result name="success">/equipment_detail.jsp</result>
+		</action>
+		<action name="deleteEquip" class="cn.zjzt.action.system.EquipmentAction"
+			method="deleteEquip">
+			<result name="success" type="chain">getAllEquipment</result>
+		</action>
+	</package>
+</struts>

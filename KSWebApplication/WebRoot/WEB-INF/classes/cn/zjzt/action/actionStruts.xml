@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+          "http://struts.apache.org/dtds/struts-2.0.dtd">
+<struts>
+	<package name="actionStruts" extends="struts-default">
+		<action name="queryPatient" class="cn.zjzt.action.PatientAction"
+			method="queryPatient">
+			<result name="success">/report_result.jsp</result>
+		</action>
+		<action name="getCheckResult" class="cn.zjzt.action.PhyCheckAction"
+			method="getCheckResult">
+			<result name="success">/report_result.jsp</result>
+		</action>
+
+		<action name="getCheckRecord" class="cn.zjzt.action.PhyCheckAction"
+			method="getCheckRecord">
+			<result name="success">/report_result.jsp</result>
+			<result name="error">/check_error.html</result>
+		</action>
+		<action name="getCheckRecordByAdmin" class="cn.zjzt.action.PhyCheckAction"
+			method="getCheckRecordByAdmin">
+			<result name="success">/report_result.jsp</result>
+			<result name="name" type="chain">getMasterByName</result>
+		</action>
+		<action name="getUnitEmpInfo" class="cn.zjzt.action.PhyUnitCheckAction"
+			method="getUnitEmpInfo">
+			<result name="success">/team_report_result.jsp</result>
+		</action>
+		<action name="getUnitEmpInfoByDate" class="cn.zjzt.action.PhyUnitCheckAction"
+			method="getUnitEmpInfoByDate">
+			<result name="success">/team_report_result.jsp</result>
+		</action>
+		<action name="getPhyicalList" class="cn.zjzt.action.PhyCheckAction"
+			method="getPhyicalList">
+			<result name="success">/phyical_list.jsp</result>
+		</action>
+		<action name="getUnitList" class="cn.zjzt.action.PhyUnitCheckAction"
+			method="getUnitList">
+			<result name="success">/check_unit.jsp</result>
+		</action>
+		<action name="getUnitInfo" class="cn.zjzt.action.PhyUnitCheckAction"
+			method="getUnitEmpInfo">
+			<result name="success">/unit_info.jsp</result>
+		</action>
+		<action name="getMasterByName" class="cn.zjzt.action.PhyCheckAction"
+			method="getMasterByName">
+			<result name="success">/admin_master_list.jsp</result>
+		</action>
+		<!--测试Excel下载-->  
+        <action name="exportExcel" class="cn.zjzt.action.ExportExcelAction" method="exportExcel">  
+            <result name="success" type="stream">  
+                <param name="contentType">application/vnd.ms-excel,charset=ISO8859-1</param>  
+                <param name="inputName">excelStream</param>  
+                <param name="contentDisposition">attachment;filename=${excelFileName}</param>  
+                <param name="bufferSize">1024</param>  
+            </result>  
+        </action> 
+        <action name="ExportUnitExcel" class="cn.zjzt.action.ExportUnitAction" 
+        	method="ExportUnitExcel">  
+            <result name="success" type="stream">  
+                <param name="contentType">application/vnd.ms-excel,charset=ISO8859-1</param>  
+                <param name="inputName">excelStream</param>  
+                <param name="contentDisposition">attachment;filename=${excelFileName}</param>  
+                <param name="bufferSize">1024</param>  
+            </result>  
+        </action> 
+	</package>
+</struts>

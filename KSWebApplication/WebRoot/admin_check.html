@@ -1,0 +1,118 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>业务员查询页面-桐乡康石体检中心</title>
+<!-- 解决IE11不兼容的问题 -->
+<meta http-equiv="X-UA-Compatible" content="IE=edge,Chrome=1" />
+<!-- Mobile Meta -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="shortcut icon" href="images/ksImages/logo.ico">
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet">
+<link href="fonts/font-awesome/css/font-awesome.css" rel="stylesheet">
+<link href="fonts/fontello/css/fontello.css" rel="stylesheet">
+<link href="plugins/magnific-popup/magnific-popup.css" rel="stylesheet">
+<link href="css/animations.css" rel="stylesheet">
+<link href="plugins/owl-carousel/owl.carousel.css" rel="stylesheet">
+<link href="css/style.css" rel="stylesheet">
+<link href="css/skins/red.css" rel="stylesheet">
+<link href="css/custom.css" rel="stylesheet">
+</head>
+<body>
+	<!-- JS 文件 -->
+	<script type="text/javascript" src="plugins/jquery.js"></script>
+	<script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
+	<div class="page-wrapper">
+		<section class="main-container">
+		<div class="container">
+			<div class="row">
+				<div class="main col-md-9">
+					<!-- 个人查询报告 -->
+					<div id="panelPersonal" class="panel panel-default">
+						<div class="panel-heading">
+							<h4 class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion"
+									href="#phyUserCheck"> <i class="fa fa-flickr"></i>个人报告查询</a>
+							</h4>
+						</div>
+						<div id="phyUserCheck" class="panel-collapse collapse in">
+							<div class="panel-body">
+								<!-- <form action="queryPatient" method="post"> -->
+								<!-- <form action="getCheckResult" method="post"> -->
+							<!-- 	<form action="getCheckRecordByAdmin" method="post"> -->
+									<label>查询方式选择</label>
+									<div>	
+									<select id="type" name="type" class="select">
+										<option value="PtName">姓名</option>
+										<option value="IDCard">身份证号</option>
+										<option value="regID">登记号</option>
+										<option value="MobileTel">电话号码</option>
+									</select>
+									</div><br>
+									<label>输入查询信息</label>
+									<div id="groupRegID" class="form-group">
+										<input type="text" class="form-control"
+											id="typeValue" name="typeValue" placeholder="输入对应信息">
+									</div>
+									<div class="alert alert-danger" id="validate"
+										style="display: none">
+										<strong id="validateTip">Oh snap!</strong>
+									</div>
+									<button id="btnCheck" type="button"
+										class="btn radius btn-default">查询</button>
+								<!-- </form> -->
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		</section>
+	</div>
+</body>
+<script type="text/javascript">
+	$("#btnCheck").click(
+			function() {
+				var typeValue = $("#typeValue").val();
+				var type=$("#type").val();
+				if ($.trim(typeValue) == "") {
+					$("#validate").css("display", "block");
+					$("#validateTip").html("查询信息不能为空！");
+					$("#groupRegID").attr("class", "form-group has-error");
+					return false;
+				}
+				var validateFlag = false;
+				$.ajax({
+					type : "POST",//方法
+					url : "validateProperty",//链接
+					dataType : "json",
+					//c : false, //设置为同步，才能阻止提交
+					data : {
+						type:type,
+						typeValue : typeValue,
+					},
+					success : function(data) {
+						if (data.result.status == 200) {
+						//用链接的方式调用action
+						window.location.href="getCheckRecordByAdmin?type="+type+"&typeValue="+typeValue+"";
+							validateFlag = true;
+							return true;
+						} else {
+							$("#groupRegID").attr("class", "form-group has-error");
+							$("#validate").css("display", "block");
+							if(type=='regID'){
+								$("#validateTip").html("登记号"+data.result.message);
+							}else if(type=='IDCard'){
+								$("#validateTip").html("身份证号"+data.result.message);
+							}else if(type=='MobileTel'){
+								$("#validateTip").html("电话号码"+data.result.message);
+							}else{
+								$("#validateTip").html(data.result.message);
+							}
+						}
+					}
+				});
+				return validateFlag;
+			});
+</script>
+</html>
